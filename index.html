@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Quantum Road</title>
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont;
+margin:0;
+background:#eef1ff;
+}
+
+header{
+background:#3949ab;
+color:white;
+padding:15px;
+font-size:20px;
+text-align:center;
+}
+
+nav{
+display:flex;
+background:white;
+border-bottom:1px solid #ddd;
+}
+
+nav button{
+flex:1;
+padding:12px;
+border:none;
+background:white;
+font-size:16px;
+}
+
+nav button.active{
+color:#3949ab;
+font-weight:bold;
+}
+
+.page{
+display:none;
+padding:20px;
+}
+
+.page.active{
+display:block;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 3px 8px rgba(0,0,0,0.08);
+}
+
+button.main{
+background:#3949ab;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>Quantum Road</header>
+
+<nav>
+<button onclick="showPage('home')" id="tab-home" class="active">ホーム</button>
+<button onclick="showPage('study')" id="tab-study">勉強</button>
+<button onclick="showPage('exam')" id="tab-exam">過去問</button>
+</nav>
+
+
+
+<div id="home" class="page active">
+
+<div class="card">
+<h3>今日のタスク</h3>
+
+<label><input type="checkbox"> 線形代数</label><br>
+<label><input type="checkbox"> 微分方程式</label><br>
+<label><input type="checkbox"> 電磁気</label><br>
+<label><input type="checkbox"> 量子基礎</label>
+
+</div>
+
+
+<div class="card">
+
+<h3>電車モード</h3>
+
+20分 数学<br>
+20分 物理<br>
+20分 量子
+
+</div>
+
+</div>
+
+
+
+<div id="study" class="page">
+
+<div class="card">
+
+<h3>勉強タイマー</h3>
+
+<select id="subject">
+
+<option>数学</option>
+<option>物理</option>
+<option>量子</option>
+
+</select>
+
+<br><br>
+
+<button class="main" onclick="startStudy()">開始</button>
+<button class="main" onclick="stopStudy()">終了</button>
+
+<p id="timer"></p>
+
+</div>
+
+
+<div class="card">
+
+<h3>勉強ログ</h3>
+
+<ul id="log"></ul>
+
+</div>
+
+</div>
+
+
+
+<div id="exam" class="page">
+
+<div class="card">
+
+<h3>東工大院試 過去問</h3>
+
+<label><input type="checkbox"> 2019</label><br>
+<label><input type="checkbox"> 2021</label><br>
+<label><input type="checkbox"> 2022</label><br>
+<label><input type="checkbox"> 2023</label><br>
+<label><input type="checkbox"> 2024</label>
+
+</div>
+
+
+<div class="card">
+
+<h3>院試トレーニング</h3>
+
+<p>Q. 固有値とは何か。</p>
+
+<button class="main" onclick="showAnswer()">解説</button>
+
+<p id="answer" style="display:none">
+
+Ax = λx を満たすとき  
+λを固有値  
+xを固有ベクトルという。
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+function showPage(page){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active")
+})
+
+document.getElementById(page).classList.add("active")
+
+document.querySelectorAll("nav button").forEach(b=>{
+b.classList.remove("active")
+})
+
+document.getElementById("tab-"+page).classList.add("active")
+
+}
+
+
+
+function showAnswer(){
+
+document.getElementById("answer").style.display="block"
+
+}
+
+
+
+let startTime
+
+function startStudy(){
+
+startTime=new Date()
+
+document.getElementById("timer").innerText="計測中..."
+
+}
+
+
+
+function stopStudy(){
+
+let endTime=new Date()
+
+let minutes=Math.round((endTime-startTime)/60000)
+
+let subject=document.getElementById("subject").value
+
+let log=document.getElementById("log")
+
+let item=document.createElement("li")
+
+item.textContent=subject+" "+minutes+"分"
+
+log.appendChild(item)
+
+document.getElementById("timer").innerText=""
+
+}
+
+</script>
+
+
+</body>
+</html>
